@@ -22,7 +22,7 @@ useQuantization = False
 model = questionary.select(
     "Which model to use:",
     choices=[
-        "FLUX.1",
+        "FLUX.1 Schnell",
         "StableDiffusion_3.5_medium",
         "StableDiffusion_2.1",
         "StableDiffusion_1.4"
@@ -30,14 +30,14 @@ model = questionary.select(
 ).ask()
 
 localModelList = {
-    "FLUX.1": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--black-forest-labs--FLUX.1-schnell/snapshots/741f7c3ce8b383c54771c7003378a50191e9efe9",
+    "FLUX.1 Schnell": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--black-forest-labs--FLUX.1-schnell/snapshots/741f7c3ce8b383c54771c7003378a50191e9efe9",
     "StableDiffusion_3.5_medium": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--stabilityai--stable-diffusion-3.5-medium",
     "StableDiffusion_2.1": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--stabilityai--stable-diffusion-2-1",
     "StableDiffusion_1.4": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--CompVis--stable-diffusion-v1-4/snapshots/133a221b8aa7292a167afc5127cb63fb5005638b"
 }
 
 modelList = {
-    "FLUX.1": "black-forest-labs/FLUX.1-schnell",
+    "FLUX.1 Schnell": "black-forest-labs/FLUX.1-schnell",
     "StableDiffusion_3.5_medium": "stabilityai/stable-diffusion-3.5-medium",
     "StableDiffusion_2.1": "stabilityai/stable-diffusion-2-1",
     "StableDiffusion_1.4": "https://huggingface.co/CompVis/stable-diffusion-v1-4"
@@ -114,7 +114,7 @@ else:
 
 image = []
 
-if model == "FLUX.1" or model == "FLUX.1_nf4": # flux pipeline
+if model == "FLUX.1 Schnell": # flux pipeline
     pipe = makeFluxPipeline(model)
     setPipeExtraSettings(useCpu)
     for img in generateFluxResponse(prompt).images:
