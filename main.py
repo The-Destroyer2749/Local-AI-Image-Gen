@@ -2,6 +2,7 @@ import torch
 import os
 from diffusers import DiffusionPipeline, StableDiffusionPipeline, FluxPipeline, StableDiffusion3Pipeline
 from diffusers import BitsAndBytesConfig, SD3Transformer2DModel, DPMSolverMultistepScheduler
+from modelLoading import checkIfModelIsCached
 # from transformers import AutoTokenizer
 import questionary
 
@@ -17,6 +18,8 @@ maxSequenceLength = 32
 useCpu = False
 useLocalModels = True
 useQuantization = False
+usingSeparateCacheDir = "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub" # either None if not using a seperate directory or the path to the directory if you are using it
+debug = False
 
 
 model = questionary.select(
@@ -29,12 +32,7 @@ model = questionary.select(
     ]
 ).ask()
 
-localModelList = {
-    "FLUX.1 Schnell": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--black-forest-labs--FLUX.1-schnell/snapshots/741f7c3ce8b383c54771c7003378a50191e9efe9",
-    "StableDiffusion_3.5_medium": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--stabilityai--stable-diffusion-3.5-medium",
-    "StableDiffusion_2.1": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--stabilityai--stable-diffusion-2-1",
-    "StableDiffusion_1.4": "/media/philip/Games/Users/phili/Documents/.cache/huggingface/hub/models--CompVis--stable-diffusion-v1-4/snapshots/133a221b8aa7292a167afc5127cb63fb5005638b"
-}
+currentModel = checkIfModelIsCached(model, usingSeparateCacheDir)
 
 modelList = {
     "FLUX.1 Schnell": "black-forest-labs/FLUX.1-schnell",
@@ -42,8 +40,6 @@ modelList = {
     "StableDiffusion_2.1": "stabilityai/stable-diffusion-2-1",
     "StableDiffusion_1.4": "https://huggingface.co/CompVis/stable-diffusion-v1-4"
 }
-
-currentModel = localModelList.get(model, modelList[model])
 
 
 def makeFluxPipeline(model):
